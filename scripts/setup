@@ -5,13 +5,15 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 install_deps() {
-  echo "scripts/setup: no install step defined yet — edit scripts/setup" >&2
-  return 1
+  echo "scripts/setup: no dependencies to install"
 }
 
 run_verify() {
-  echo "scripts/setup: no verify command defined yet — edit scripts/setup" >&2
-  return 1
+  for f in evals/cases/*.json; do
+    node -e 'JSON.parse(require("fs").readFileSync(process.argv[1], "utf8"))' "$f"
+  done
+  node --check evals/score
+  echo "scripts/setup: verify passed"
 }
 
 install_deps

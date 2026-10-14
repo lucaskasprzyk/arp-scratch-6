@@ -1,0 +1,9 @@
+{
+  "source": "https://github.com/lucaskasprzyk/agent-repo-prep/pull/13",
+  "failure": "The generated PR body claimed the required code-owner review does not apply to a PR under the sole owner's account (code reviews 1 and 2 of github-templates).",
+  "input": "The PR author is the repository's only account and its sole code owner. An active ruleset requires one approval and code-owner review. Can the PR be merged, and what does it need?",
+  "expected": {
+    "must_match": ["other than the (PR )?author|independent (eligible )?reviewer"],
+    "must_not_match": ["does not apply|not applicable|\\bN/A\\b|exempt"]
+  }
+}

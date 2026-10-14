@@ -1,11 +1,12 @@
-# <Project name> — agent instructions
+# arp-scratch-6 — agent instructions
 
 <!-- Keep this file under ~150 lines. Inclusion test, per line: would removing it cause an agent error?
      CLAUDE.md is exactly `@AGENTS.md`; host-specific settings live in .claude/ and .codex/. -->
 
 ## 1. Purpose
 
-<One paragraph: what this repository is for.>
+Measurement fixture for agent-repo-prep item qa-conditional: a static app page for the browser MCP
+check, the seeded e2e path on seed data, and evals over two real failures with a CI threshold.
 
 Vision: [docs/vision.md](docs/vision.md)
 
@@ -16,13 +17,13 @@ Exact commands; "full suite = CI".
 | Purpose | Command |
 |---|---|
 | bootstrap | `scripts/setup` |
-| verify | <command> |
-| test — single | <command> |
-| test — full suite | <command> |
-| test — e2e | <command, or "none"> |
-| lint | <command> |
-| typecheck | <command> |
-| smoke | <command> — expected: <result> |
+| verify | `scripts/setup` |
+| test — single | none |
+| test — full suite | `sh evals/check.sh` |
+| test — e2e | `npm install --no-save --no-package-lock @playwright/test@1.64.0 && npx playwright test --config tests/e2e/playwright.config.mjs` |
+| lint | none |
+| typecheck | none |
+| start the app | `scripts/start` — expected: http://127.0.0.1:8080 serves "arp-scratch-6 fixture app" |
 
 ## 3. Structure map
 

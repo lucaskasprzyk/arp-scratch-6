@@ -1,0 +1,1 @@
+Not established. GraphQL issueTemplates lists Markdown templates only and is blind to YAML issue forms, so [] says nothing about the form. Open issues/new/choose signed in and read the "Templates and forms" list.

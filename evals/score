@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+// Deterministic scorer: for every evals/cases/<id>.json, checks the recorded answer of the feature in
+// evals/outputs/<id>.txt against the case's `expected` patterns (all must_match hit, no must_not_match
+// hit, case-insensitive). Prints passed/total on stdout; per-case results go to stderr.
+const fs = require('fs');
+const path = require('path');
+
+const root = path.join(__dirname);
+const ids = fs.readdirSync(path.join(root, 'cases')).filter((f) => f.endsWith('.json')).map((f) => f.slice(0, -5)).sort();
+let passed = 0;
+for (const id of ids) {
+  const { expected } = JSON.parse(fs.readFileSync(path.join(root, 'cases', `${id}.json`), 'utf8'));
+  const output = fs.readFileSync(path.join(root, 'outputs', `${id}.txt`), 'utf8');
+  const hit = (p) => new RegExp(p, 'i').test(output);
+  const ok = (expected.must_match ?? []).every(hit) && !(expected.must_not_match ?? []).some(hit);
+  if (ok) passed += 1;
+  console.error(`${ok ? 'pass' : 'FAIL'} ${id}`);
+}
+if (ids.length === 0) process.exit(1);
+console.log(String(passed / ids.length));
