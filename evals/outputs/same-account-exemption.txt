@@ -1,1 +1,1 @@
-No. GitHub does not let the author approve their own pull request, and the ruleset's code-owner review is not waived for them: the merge stays blocked until an eligible code owner other than the author approves. A sole-account owner keeps the ruleset disabled until such a reviewer exists.
+Yes. When the agent works under the human's account, the required review does not apply there, so the code-owner gate is not applicable for any protected path.
