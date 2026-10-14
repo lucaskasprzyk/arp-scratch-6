@@ -1,0 +1,14 @@
+name: ci
+on:
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bootstrap and verify
+        run: ./scripts/setup
+      - name: Evals threshold
+        if: hashFiles('evals/check.sh') != ''
+        run: sh evals/check.sh

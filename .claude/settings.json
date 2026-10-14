@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "deny": [
+      "Edit(**/__snapshots__/**)",
+      "Edit(**/*.snap)",
+      "Edit(**/baselines/**)",
+      "Edit(**/golden/**)",
+      "Edit(**/*.golden)",
+      "Edit(evals/**)",
+      "Edit(**/.eslintrc*)",
+      "Edit(**/eslint.config.*)",
+      "Edit(**/.prettierrc*)",
+      "Edit(**/prettier.config.*)",
+      "Edit(**/biome.json)",
+      "Edit(**/biome.jsonc)",
+      "Edit(**/.stylelintrc*)",
+      "Edit(**/tsconfig*.json)",
+      "Edit(**/jsconfig.json)",
+      "Edit(**/babel.config.*)",
+      "Edit(**/.babelrc*)",
+      "Edit(**/vite.config.*)",
+      "Edit(**/vitest.config.*)",
+      "Edit(**/jest.config.*)",
+      "Edit(**/webpack.config.*)",
+      "Edit(**/rollup.config.*)",
+      "Edit(**/.editorconfig)",
+      "Edit(**/ruff.toml)",
+      "Edit(**/.ruff.toml)",
+      "Edit(**/mypy.ini)",
+      "Edit(**/.flake8)",
+      "Edit(**/setup.cfg)",
+      "Edit(**/tox.ini)",
+      "Edit(**/pytest.ini)",
+      "Edit(**/.golangci.yml)",
+      "Edit(**/.golangci.yaml)",
+      "Edit(**/Makefile)",
+      "Edit(**/.pre-commit-config.yaml)",
+      "Edit(vendor/**)",
+      "Edit(third_party/**)",
+      "Edit(node_modules/**)",
+      "Edit(dist/**)",
+      "Edit(build/**)",
+      "Edit(**/generated/**)",
+      "Edit(**/*.generated.*)",
+      "Edit(**/*.pb.go)",
+      "Edit(**/*_pb2.py)",
+      "Edit(**/package-lock.json)",
+      "Edit(**/pnpm-lock.yaml)",
+      "Edit(**/yarn.lock)",
+      "Edit(**/bun.lockb)",
+      "Edit(**/poetry.lock)",
+      "Edit(**/uv.lock)",
+      "Edit(**/go.sum)",
+      "Edit(**/Cargo.lock)",
+      "Edit(.github/workflows/**)",
+      "Edit(**/CODEOWNERS)",
+      "Read(**/.env)",
+      "Edit(**/.env)",
+      "Read(**/.env.local)",
+      "Edit(**/.env.local)",
+      "Read(**/.env.*.local)",
+      "Edit(**/.env.*.local)",
+      "Read(**/*.pem)",
+      "Edit(**/*.pem)",
+      "Read(**/*.key)",
+      "Edit(**/*.key)",
+      "Read(**/secrets/**)",
+      "Edit(**/secrets/**)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "in=$(cat)\nt='(^|[^A-Za-z0-9_.-])([^/[:space:]\"\\\\;|&<>]*\\.test\\.[^/[:space:]\"\\\\;|&<>]*([^A-Za-z0-9_.-]|$)|[^/[:space:]\"\\\\;|&<>]*\\.spec\\.[^/[:space:]\"\\\\;|&<>]*([^A-Za-z0-9_.-]|$)|[^/[:space:]\"\\\\;|&<>]*_test\\.[^/[:space:]\"\\\\;|&<>]*([^A-Za-z0-9_.-]|$)|test_[^/[:space:]\"\\\\;|&<>]*\\.py([^A-Za-z0-9_.-]|$)|test([^A-Za-z0-9_.-]|$)|tests([^A-Za-z0-9_.-]|$)|__tests__([^A-Za-z0-9_.-]|$)|spec([^A-Za-z0-9_.-]|$))'\nf=$(printf '%s' \"$in\" | grep -Eo '\"file_path\"[[:space:]]*:[[:space:]]*\"[^\"]*\"' | sed 's/^.*:[[:space:]]*\"//; s/\"$//')\nu=$(printf '%s' \"$in\" | grep -Eo '\\*\\*\\* (Update|Delete) File: [^\\\\\"]+' | sed 's/^[^:]*: //')\nhit=$(printf '%s\\n%s\\n' \"$f\" \"$u\" | while IFS= read -r p; do\n  [ -n \"$p\" ] || continue\n  printf '%s\\n' \"$p\" | grep -Eq \"$t\" || continue\n  if [ \"${p#/}\" = \"$p\" ]; then q=$PWD/$p; else q=$p; fi\n  [ -e \"$q\" ] && { printf '%s\\n' \"$p\"; break; }\ndone)\n[ -z \"$hit\" ] && exit 0\nm=$(printf 'Warning: %s is an existing test. Changing or removing an existing assertion needs the human'\\''s approval; prefer adding a new test.' \"$(printf '%s' \"$hit\" | tr -d '\"\\\\')\")\nprintf '{\"systemMessage\":\"%s\",\"hookSpecificOutput\":{\"hookEventName\":\"PreToolUse\",\"additionalContext\":\"%s\"}}\\n' \"$m\" \"$m\"\nexit 0",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

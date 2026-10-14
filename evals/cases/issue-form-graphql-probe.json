@@ -1,0 +1,9 @@
+{
+  "source": "https://github.com/lucaskasprzyk/agent-repo-prep/pull/13",
+  "failure": "The issue form was declared not loaded from GraphQL issueTemplates, a probe that lists Markdown templates only and cannot see YAML issue forms (github-templates phase 5).",
+  "input": "A YAML issue form .github/ISSUE_TEMPLATE/work-item.yml is on main. GraphQL issueTemplates returns []. Is the form loaded?",
+  "expected": {
+    "must_match": ["blind|Markdown templates only|cannot see", "issues/new/choose"],
+    "must_not_match": ["\\bnot (been )?loaded\\b|did not load|does not load"]
+  }
+}

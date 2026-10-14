@@ -1,0 +1,74 @@
+# Code owners of the protected paths (agent-ready standard v0, protected-path matrix).
+# Replace every @FILL_IN_OWNER with a real user or team before required code-owner review is switched
+# on. GitHub does not let an author approve their own pull request and waives nothing for them: once
+# that review is on, a change to an owned path waits for a code owner other than its author. Where the
+# agent writes under your own account and you are the only owner, leave the review off; protection
+# there is the host hooks plus you reading the diff.
+# tests
+**/*.test.* @FILL_IN_OWNER
+**/*.spec.* @FILL_IN_OWNER
+**/*_test.* @FILL_IN_OWNER
+**/test_*.py @FILL_IN_OWNER
+**/test/** @FILL_IN_OWNER
+**/tests/** @FILL_IN_OWNER
+**/__tests__/** @FILL_IN_OWNER
+**/spec/** @FILL_IN_OWNER
+# snapshots / baselines
+**/__snapshots__/** @FILL_IN_OWNER
+**/*.snap @FILL_IN_OWNER
+**/baselines/** @FILL_IN_OWNER
+**/golden/** @FILL_IN_OWNER
+**/*.golden @FILL_IN_OWNER
+# evals
+evals/** @FILL_IN_OWNER
+# lint / type / build config
+**/.eslintrc* @FILL_IN_OWNER
+**/eslint.config.* @FILL_IN_OWNER
+**/.prettierrc* @FILL_IN_OWNER
+**/prettier.config.* @FILL_IN_OWNER
+**/biome.json @FILL_IN_OWNER
+**/biome.jsonc @FILL_IN_OWNER
+**/.stylelintrc* @FILL_IN_OWNER
+**/tsconfig*.json @FILL_IN_OWNER
+**/jsconfig.json @FILL_IN_OWNER
+**/babel.config.* @FILL_IN_OWNER
+**/.babelrc* @FILL_IN_OWNER
+**/vite.config.* @FILL_IN_OWNER
+**/vitest.config.* @FILL_IN_OWNER
+**/jest.config.* @FILL_IN_OWNER
+**/webpack.config.* @FILL_IN_OWNER
+**/rollup.config.* @FILL_IN_OWNER
+**/.editorconfig @FILL_IN_OWNER
+**/ruff.toml @FILL_IN_OWNER
+**/.ruff.toml @FILL_IN_OWNER
+**/mypy.ini @FILL_IN_OWNER
+**/.flake8 @FILL_IN_OWNER
+**/setup.cfg @FILL_IN_OWNER
+**/tox.ini @FILL_IN_OWNER
+**/pytest.ini @FILL_IN_OWNER
+**/.golangci.yml @FILL_IN_OWNER
+**/.golangci.yaml @FILL_IN_OWNER
+**/Makefile @FILL_IN_OWNER
+**/.pre-commit-config.yaml @FILL_IN_OWNER
+# generated and vendored trees
+vendor/** @FILL_IN_OWNER
+third_party/** @FILL_IN_OWNER
+node_modules/** @FILL_IN_OWNER
+dist/** @FILL_IN_OWNER
+build/** @FILL_IN_OWNER
+**/generated/** @FILL_IN_OWNER
+**/*.generated.* @FILL_IN_OWNER
+**/*.pb.go @FILL_IN_OWNER
+**/*_pb2.py @FILL_IN_OWNER
+**/package-lock.json @FILL_IN_OWNER
+**/pnpm-lock.yaml @FILL_IN_OWNER
+**/yarn.lock @FILL_IN_OWNER
+**/bun.lockb @FILL_IN_OWNER
+**/poetry.lock @FILL_IN_OWNER
+**/uv.lock @FILL_IN_OWNER
+**/go.sum @FILL_IN_OWNER
+**/Cargo.lock @FILL_IN_OWNER
+# workflows
+.github/workflows/** @FILL_IN_OWNER
+# CODEOWNERS itself
+**/CODEOWNERS @FILL_IN_OWNER
