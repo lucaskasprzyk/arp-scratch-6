@@ -1,0 +1,62 @@
+# managed by agent-repo-prep
+name: agent-setup-guards
+on:
+  pull_request:
+  push:
+
+jobs:
+  guards:
+    # A push is checked only on the default branch; every pull request is checked.
+    if: github.event_name == 'pull_request' || github.ref_name == github.event.repository.default_branch
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: AGENTS.md size budget
+        shell: bash
+        run: |
+          budget=150
+          [ -f AGENTS.md ] || exit 0
+          lines=$(wc -l < AGENTS.md | tr -d ' ')
+          if [ "$lines" -gt "$budget" ]; then
+            echo "::error file=AGENTS.md::AGENTS.md has $lines lines, over the budget of $budget (rule: the root AGENTS.md stays within $budget lines; move detail to docs/)"
+            exit 1
+          fi
+          echo "AGENTS.md has $lines lines, within the budget of $budget"
+      - name: Host skill-link parity
+        shell: bash
+        run: |
+          shopt -s nullglob
+          rc=0
+          for dir in .agents/skills/*/; do
+            name=$(basename "$dir")
+            if [ ! -e ".claude/skills/$name" ] && [ ! -L ".claude/skills/$name" ]; then
+              echo "::error::.claude/skills/$name is missing (rule: every .agents/skills/<name>/ has a .claude/skills/<name> link to ../../.agents/skills/<name>)"
+              rc=1
+            fi
+          done
+          for entry in .claude/skills/*; do
+            name=$(basename "$entry")
+            if [ -L "$entry" ]; then
+              target=$(readlink "$entry")
+              if [ "$target" != "../../.agents/skills/$name" ]; then
+                echo "::error::$entry points to $target (rule: the link target is ../../.agents/skills/$name)"
+                rc=1
+                continue
+              fi
+              if [ ! -e "$entry" ]; then
+                echo "::error::$entry does not resolve (rule: the link target ../../.agents/skills/$name must exist)"
+                rc=1
+                continue
+              fi
+            fi
+            if [ ! -d ".agents/skills/$name" ]; then
+              echo "::error::$entry has no .agents/skills/$name (rule: .claude/skills/<name> exists only for an .agents/skills/<name>/)"
+              rc=1
+              continue
+            fi
+            if [ ! -L "$entry" ] && ! diff -r "$entry" ".agents/skills/$name" > /dev/null; then
+              echo "::error::$entry is a copy that differs from .agents/skills/$name (rule: a copy equals .agents/skills/<name>; prefer the link)"
+              rc=1
+            fi
+          done
+          exit $rc

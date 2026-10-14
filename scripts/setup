@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Bootstrap: stands the environment up in one non-interactive command and ends in verify.
+# Fill in both steps for this repository's stack; never prompt for input.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+install_deps() {
+  echo "scripts/setup: no install step defined yet — edit scripts/setup" >&2
+  return 1
+}
+
+run_verify() {
+  echo "scripts/setup: no verify command defined yet — edit scripts/setup" >&2
+  return 1
+}
+
+install_deps
+run_verify
